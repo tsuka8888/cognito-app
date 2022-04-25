@@ -1,24 +1,20 @@
 import { Amplify, I18n } from "aws-amplify";
-
-import { Authenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator, translations } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-
 import awsExports from "./aws-exports";
-import { vocabularies } from "./vocablaries";
+
 Amplify.configure(awsExports);
 
-I18n.putVocabularies(vocabularies);
-I18n.setLanguage('ja');
+I18n.putVocabularies(translations);
+I18n.setLanguage("ja");
 
-export default function App() {
+const App = ({ signOut, user }: any) => {
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <main>
-          <h1>Hello {user ? user.username : ""}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    </Authenticator>
+    <>
+      <h1>こんにちは {user.username}</h1>
+      <button onClick={signOut}>サインアウト</button>
+    </>
   );
-}
+};
+
+export default withAuthenticator(App);
